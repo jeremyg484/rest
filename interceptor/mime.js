@@ -37,6 +37,10 @@
 					headers['Content-Type'] = mime;
 
 					requestReady.resolve(request);
+				}, function () {
+					//No appropriate converter found - just return the request to
+					//allow processing to continue.
+					requestReady.resolve(request);
 				});
 
 				return requestReady.promise;
@@ -55,6 +59,10 @@
 
 				when(serializer, function (serializer) {
 					response.entity = serializer.read(response.entity);
+					responseReady.resolve(response);
+				}, function () {
+					//No appropriate converter found - just return the response to
+					//allow processing to continue.
 					responseReady.resolve(response);
 				});
 
